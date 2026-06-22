@@ -135,6 +135,13 @@ footer { background: var(--crimson-mid); border-top: 1px solid var(--gold-dark);
     </div>
     <div class="field-grid">
 
+      <div id="lookupBox" style="background:var(--cream-dark);border:1px solid var(--border);border-radius:6px;padding:14px 16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:4px">
+        <span style="font-family:'Cinzel',serif;font-size:12px;color:var(--crimson-d);letter-spacing:.5px">JÁ TEM CADASTRO NA ATHELSTAN?</span>
+        <input type="text" id="lookupNome" placeholder="Digite seu nome ou sobrenome" style="flex:1;min-width:180px;padding:9px 12px;border:1px solid var(--border);border-radius:4px;font-family:'EB Garamond',serif;font-size:15px;background:#fff">
+        <button type="button" class="sig-btn-option" onclick="buscarDados()">🔍 Buscar meus dados</button>
+        <span id="lookupMsg" style="width:100%;font-size:13px;color:var(--text-light);font-style:italic"></span>
+      </div>
+
       <div class="field-grid cols-2">
         <div class="field">
           <label>Nomes completos de batismo <em class="en">(Full Christian Names)</em> <span class="req">*</span></label>
@@ -284,6 +291,21 @@ footer { background: var(--crimson-mid); border-top: 1px solid var(--gold-dark);
         </div>
       </div>
 
+      <div class="field-grid cols-3">
+        <div class="field">
+          <label>Nº CIM <em class="en">(Potência)</em></label>
+          <input type="text" name="cim" placeholder="Carteira de Identidade Maçônica">
+        </div>
+        <div class="field">
+          <label>Nº Cadastro SAR</label>
+          <input type="text" name="sar" placeholder="Supremo Cap. Arco Real">
+        </div>
+        <div class="field">
+          <label>Nº GPB <em class="en">(KT / Preceptoria)</em></label>
+          <input type="text" name="gpb" placeholder="Grande Priorado do Brasil">
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -367,6 +389,36 @@ footer { background: var(--crimson-mid); border-top: 1px solid var(--gold-dark);
 <script>
 // ── CONFIG: cole aqui a URL do Web App do Google Apps Script (nova conta/planilha) ──
 var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyBXEUG0YfboKzgBECU5RuHeHwUFiH3GOW0OYwKICQfLL__QeHHETO-r_aYQyE9Jj7X/exec';
+
+/* === Busca automática na base da Athelstan (JSONP) === */
+function _preencherSe(nome, valor){
+  if(!valor) return false;
+  var el = document.querySelector('[name="'+nome+'"]');
+  if(!el) return false;
+  el.value = valor; el.style.background = '#FFFDF0';
+  return true;
+}
+function buscarDados(){
+  var q = (document.getElementById('lookupNome').value||'').trim();
+  var msg = document.getElementById('lookupMsg');
+  if(q.length < 2){ msg.textContent = 'Digite ao menos 2 letras do nome.'; return; }
+  msg.textContent = 'Buscando na base da Athelstan...';
+  var cb = 'cb_'+Date.now();
+  var s = document.createElement('script');
+  window[cb] = function(res){
+    try{ delete window[cb]; }catch(e){ window[cb]=undefined; }
+    if(s.parentNode) s.parentNode.removeChild(s);
+    if(!res || !res.ok){ msg.textContent = 'Não foi possível consultar agora. Preencha manualmente.'; return; }
+    if(!res.found){ msg.textContent = 'Nenhum cadastro encontrado com esse nome — preencha os campos manualmente.'; return; }
+    var mapa = {christianNames:res.christianNames, surname:res.surname, address:res.address, dob:res.dob, homeTel:res.homeTel, mobileTel:res.mobileTel, email:res.email, raisedLodge:res.raisedLodge, exaltedChapter:res.exaltedChapter};
+    var n=0; for(var k in mapa){ if(_preencherSe(k, mapa[k])) n++; }
+    msg.innerHTML = '<strong style="color:#1A5C2A">✓ Encontramos seu cadastro.</strong> Preenchemos '+n+' campo(s) destacados — confira, ajuste o que mudou e complete o restante (Nomen, datas, CIM/SAR/GPB, etc.).';
+  };
+  s.onerror = function(){ msg.textContent = 'Erro de conexão ao buscar.'; };
+  s.src = APPS_SCRIPT_URL + '?action=lookup&callback='+cb+'&q='+encodeURIComponent(q);
+  document.body.appendChild(s);
+}
+/* === / Busca automática === */
 // ─────────────────────────────────────────────────────────────────────────────────
 
 /* === Assinatura (pipeline idêntico ao da Athelstan) === */
@@ -443,7 +495,7 @@ async function enviarFormulario(e) {
     'address','city','state','postcode','country','homeTel','workTel','mobileTel','email',
     'raisedLodge','lodgeNo','lodgeDate','lodgeConst',
     'exaltedChapter','chapterNo','chapterDate','chapterConst',
-    'installedPreceptory','preceptoryNo','preceptoryDate','preceptoryConst','reason'];
+    'installedPreceptory','preceptoryNo','preceptoryDate','preceptoryConst','reason','cim','sar','gpb'];
   campos.forEach(function(key) { var el = form.elements[key]; data[key] = el ? (el.value || '') : ''; });
 
   if (sigBase64) {
