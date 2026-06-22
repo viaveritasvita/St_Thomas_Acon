@@ -322,8 +322,9 @@ footer { background: var(--crimson-mid); border-top: 1px solid var(--gold-dark);
       Confirmo que os dados acima estão corretos, que mantenho minha fé na Santíssima Trindade Cristã, que recebi uma cópia da Política de Proteção de Dados e que solicito ingressar na Capela acima nomeada.
     </div>
     <div class="field" style="margin-top:18px">
-      <label>Motivo para ingressar <em class="en">(apenas se não mora/trabalha na Província)</em></label>
-      <textarea name="reason" placeholder="Preencha somente se não residir ou trabalhar na Província, conforme a Constituição Sec. 4.4."></textarea>
+      <label>Motivo para ingressar <em class="en">(Reason for joining)</em></label>
+      <textarea name="reason" placeholder="Ex.: vínculo com membros da Capela, identificação com a Ordem, proximidade da Capela, etc."></textarea>
+      <span class="field-hint">Preencha <strong>somente se você NÃO mora nem trabalha na Província (South America)</strong>. Nesse caso, a Constituição (Sec. 4.4) exige que você explique por que deseja ingressar <em>nesta</em> Capela específica — por exemplo, vínculo com irmãos da Capela, identificação com a Ordem, etc. Se você mora ou trabalha na Província, pode deixar este campo em branco.</span>
     </div>
   </div>
 
@@ -427,8 +428,8 @@ function confirmarPreenchimento(sim){
   var mapa={christianNames:res.christianNames, surname:res.surname,
     address:res.address, city:res.city, state:res.state, postcode:res.postcode, country:res.country,
     dob:res.dob, homeTel:res.homeTel, mobileTel:res.mobileTel, email:res.email,
-    raisedLodge:res.raisedLodge, lodgeNo:res.lodgeNo, lodgeConst:res.lodgeConst,
-    exaltedChapter:res.exaltedChapter, chapterNo:res.chapterNo, chapterConst:res.chapterConst};
+    raisedLodge:res.raisedLodge, lodgeNo:res.lodgeNo, lodgeDate:res.lodgeDate, lodgeConst:res.lodgeConst,
+    exaltedChapter:res.exaltedChapter, chapterNo:res.chapterNo, chapterDate:res.chapterDate, chapterConst:res.chapterConst};
   var n=0; for(var k in mapa){ if(_preencherSe(k,mapa[k])) n++; }
   msg.innerHTML='<strong style="color:#1A5C2A">✓ Dados preenchidos ('+n+' campos destacados).</strong> Confira, ajuste o que mudou e complete o que falta: Nomen, datas de Elevação/Exaltação/Instalação, CIM/SAR/GPB e a assinatura.';
 }
