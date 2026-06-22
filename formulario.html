@@ -390,33 +390,47 @@ footer { background: var(--crimson-mid); border-top: 1px solid var(--gold-dark);
 // ── CONFIG: cole aqui a URL do Web App do Google Apps Script (nova conta/planilha) ──
 var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyBXEUG0YfboKzgBECU5RuHeHwUFiH3GOW0OYwKICQfLL__QeHHETO-r_aYQyE9Jj7X/exec';
 
-/* === Busca automática na base da Athelstan (JSONP) === */
+/* === Busca automática na base da Athelstan (JSONP) — com consentimento === */
+var _lookupRes = null;
 function _preencherSe(nome, valor){
-  if(!valor) return false;
-  var el = document.querySelector('[name="'+nome+'"]');
-  if(!el) return false;
-  el.value = valor; el.style.background = '#FFFDF0';
-  return true;
+  if(valor===undefined||valor===null||valor==='') return false;
+  var el=document.querySelector('[name="'+nome+'"]'); if(!el) return false;
+  el.value=valor; el.style.background='#FFFDF0'; return true;
 }
 function buscarDados(){
-  var q = (document.getElementById('lookupNome').value||'').trim();
-  var msg = document.getElementById('lookupMsg');
-  if(q.length < 2){ msg.textContent = 'Digite ao menos 2 letras do nome.'; return; }
-  msg.textContent = 'Buscando na base da Athelstan...';
-  var cb = 'cb_'+Date.now();
-  var s = document.createElement('script');
-  window[cb] = function(res){
+  var q=(document.getElementById('lookupNome').value||'').trim();
+  var msg=document.getElementById('lookupMsg');
+  if(q.length<2){ msg.innerHTML='Digite ao menos 2 letras do nome.'; return; }
+  msg.innerHTML='Buscando na base da Athelstan...';
+  var cb='cb_'+Date.now(); var s=document.createElement('script');
+  window[cb]=function(res){
     try{ delete window[cb]; }catch(e){ window[cb]=undefined; }
     if(s.parentNode) s.parentNode.removeChild(s);
-    if(!res || !res.ok){ msg.textContent = 'Não foi possível consultar agora. Preencha manualmente.'; return; }
-    if(!res.found){ msg.textContent = 'Nenhum cadastro encontrado com esse nome — preencha os campos manualmente.'; return; }
-    var mapa = {christianNames:res.christianNames, surname:res.surname, address:res.address, dob:res.dob, homeTel:res.homeTel, mobileTel:res.mobileTel, email:res.email, raisedLodge:res.raisedLodge, exaltedChapter:res.exaltedChapter};
-    var n=0; for(var k in mapa){ if(_preencherSe(k, mapa[k])) n++; }
-    msg.innerHTML = '<strong style="color:#1A5C2A">✓ Encontramos seu cadastro.</strong> Preenchemos '+n+' campo(s) destacados — confira, ajuste o que mudou e complete o restante (Nomen, datas, CIM/SAR/GPB, etc.).';
+    if(!res||!res.ok){ msg.innerHTML='Não foi possível consultar agora. Preencha manualmente.'; return; }
+    if(!res.found){ msg.innerHTML='Nenhum cadastro encontrado com esse nome — preencha os campos manualmente.'; return; }
+    _lookupRes=res;
+    var loja = res._loja ? ('<br>Loja: <strong>'+res._loja+'</strong>') : '';
+    msg.innerHTML='<div style="background:#fff;border:1px solid var(--gold);border-radius:6px;padding:12px 14px;color:var(--text);text-align:left">'+
+      '<div style="margin-bottom:10px">Encontramos um cadastro na base da Athelstan:<br>Nome: <strong>'+(res._nome||'')+'</strong>'+loja+'.<br><br>É você? Confirma que está correto e <strong>nos autoriza</strong> a preencher o formulário com esses dados?</div>'+
+      '<button type="button" class="sig-btn-option" onclick="confirmarPreenchimento(true)">✓ Sim, sou eu — preencher</button> '+
+      '<button type="button" class="sig-btn-option" style="background:#fff;color:var(--crimson)" onclick="confirmarPreenchimento(false)">Não / preencher manualmente</button>'+
+      '</div>';
   };
-  s.onerror = function(){ msg.textContent = 'Erro de conexão ao buscar.'; };
-  s.src = APPS_SCRIPT_URL + '?action=lookup&callback='+cb+'&q='+encodeURIComponent(q);
+  s.onerror=function(){ msg.innerHTML='Erro de conexão ao buscar.'; };
+  s.src=APPS_SCRIPT_URL+'?action=lookup&callback='+cb+'&q='+encodeURIComponent(q);
   document.body.appendChild(s);
+}
+function confirmarPreenchimento(sim){
+  var msg=document.getElementById('lookupMsg');
+  if(!sim || !_lookupRes){ msg.innerHTML='Sem problema — preencha os campos manualmente, por favor.'; return; }
+  var res=_lookupRes;
+  var mapa={christianNames:res.christianNames, surname:res.surname,
+    address:res.address, city:res.city, state:res.state, postcode:res.postcode, country:res.country,
+    dob:res.dob, homeTel:res.homeTel, mobileTel:res.mobileTel, email:res.email,
+    raisedLodge:res.raisedLodge, lodgeNo:res.lodgeNo, lodgeConst:res.lodgeConst,
+    exaltedChapter:res.exaltedChapter, chapterNo:res.chapterNo, chapterConst:res.chapterConst};
+  var n=0; for(var k in mapa){ if(_preencherSe(k,mapa[k])) n++; }
+  msg.innerHTML='<strong style="color:#1A5C2A">✓ Dados preenchidos ('+n+' campos destacados).</strong> Confira, ajuste o que mudou e complete o que falta: Nomen, datas de Elevação/Exaltação/Instalação, CIM/SAR/GPB e a assinatura.';
 }
 /* === / Busca automática === */
 // ─────────────────────────────────────────────────────────────────────────────────
