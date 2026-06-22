@@ -470,4 +470,9 @@ async function enviarFormulario(e) {
     var timer = setInterval(function () { secs--; if (cd) cd.textContent = secs;
       if (secs <= 0) { clearInterval(timer); window.location.href = 'painel.html'; } }, 1000);
   } catch (err) {
-    errorMsg.style.d
+    errorMsg.style.display = 'block'; btn.disabled = false; btn.textContent = 'Enviar Candidatura';
+  }
+}
+</script>
+</body>
+</html>

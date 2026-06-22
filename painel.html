@@ -15,36 +15,27 @@
   body{font-family:Georgia,'Times New Roman',serif;color:var(--ink);background:var(--stone);line-height:1.6}
   a{color:var(--crimson)}
   .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
-
   nav{position:sticky;top:0;z-index:20;background:var(--crimson-d);box-shadow:0 2px 6px rgba(0,0,0,.18)}
   nav .wrap{display:flex;align-items:center;justify-content:space-between;height:54px}
   nav .brand{color:#fff;font-size:.82rem;letter-spacing:.16em;text-transform:uppercase}
   nav .brand b{color:var(--gold-l)}
   nav ul{list-style:none;display:flex;gap:8px}
-  nav a{color:#f0e7da;text-decoration:none;font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;
-    padding:8px 14px;border-radius:20px;transition:.2s}
+  nav a{color:#f0e7da;text-decoration:none;font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;padding:8px 14px;border-radius:20px;transition:.2s}
   nav a:hover,nav a.active{background:var(--crimson);color:#fff}
-
-  header.ph{background:linear-gradient(160deg,var(--crimson),var(--crimson-d));color:#fff;
-    padding:30px 24px;border-bottom:4px solid var(--gold-l)}
+  header.ph{background:linear-gradient(160deg,var(--crimson),var(--crimson-d));color:#fff;padding:30px 24px;border-bottom:4px solid var(--gold-l)}
   header.ph .wrap{display:flex;align-items:center;gap:18px}
   header.ph img{width:64px;height:64px;object-fit:contain;filter:drop-shadow(0 3px 8px rgba(0,0,0,.4))}
   header.ph h1{font-size:1.5rem}
   header.ph .sub{color:var(--gold-l);font-style:italic;font-size:.95rem}
-
   .toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:26px 0 8px}
-  .toolbar input,.toolbar select{font-family:inherit;font-size:.92rem;padding:9px 12px;border:1px solid var(--line);
-    border-radius:6px;background:#fff}
+  .toolbar input,.toolbar select{font-family:inherit;font-size:.92rem;padding:9px 12px;border:1px solid var(--line);border-radius:6px;background:#fff}
   .toolbar input{flex:1;min-width:200px}
-  .chip{font-family:Arial,sans-serif;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;
-    padding:3px 10px;border-radius:20px;color:#fff;white-space:nowrap}
+  .chip{font-family:Arial,sans-serif;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;padding:3px 10px;border-radius:20px;color:#fff;white-space:nowrap}
   .c-PENDENTE{background:#b08400}.c-OK{background:#2f7d32}.c-ENVIADO{background:#2b6ca3}.c-REVISAR{background:#a33b2b}
   .stats{display:flex;gap:10px;flex-wrap:wrap;margin:6px 0 18px;font-family:Arial,sans-serif;font-size:.85rem;color:#6f665a}
   .stats b{color:var(--crimson-d)}
-
   table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden}
-  thead th{background:var(--crimson);color:#fff;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;
-    padding:11px 12px;text-align:left;font-family:Arial,sans-serif}
+  thead th{background:var(--crimson);color:#fff;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;padding:11px 12px;text-align:left;font-family:Arial,sans-serif}
   tbody td{padding:10px 12px;border-top:1px solid var(--line);font-size:.92rem;vertical-align:top}
   tbody tr:nth-child(even){background:var(--stone-2)}
   tbody tr:hover{background:#f3ece0}
@@ -53,9 +44,6 @@
   .empty{text-align:center;padding:60px 20px;color:#8a8275}
   .empty img{width:90px;opacity:.5;margin-bottom:14px}
   footer{background:var(--crimson-d);color:#e9ddd0;text-align:center;padding:24px;font-size:.82rem;margin-top:40px}
-
-  .setup{background:#fff;border:1px dashed var(--gold);border-radius:8px;padding:18px 22px;margin:18px 0;font-size:.9rem}
-  .setup code{background:var(--stone);padding:2px 6px;border-radius:4px;font-size:.85rem}
 </style>
 </head>
 <body>
@@ -69,7 +57,6 @@
       </ul>
     </div>
   </nav>
-
   <header class="ph">
     <div class="wrap">
       <img src="logo.png" alt="">
@@ -79,14 +66,7 @@
       </div>
     </div>
   </header>
-
   <div class="wrap">
-    <div id="setup" class="setup" style="display:none">
-      <b>Configuração pendente.</b> Para o painel ler os candidatos automaticamente, publique a planilha
-      do Google (Arquivo → Compartilhar → Publicar na web → CSV) e cole o link em
-      <code>CONFIG.csvUrl</code> no topo deste arquivo (<code>painel.html</code>).
-    </div>
-
     <div class="toolbar">
       <input id="q" type="text" placeholder="Buscar por nome, cidade, loja…">
       <select id="fStatus">
@@ -98,24 +78,16 @@
       </select>
     </div>
     <div class="stats" id="stats"></div>
-
     <table>
       <thead><tr><th>Candidato</th><th>Nomen</th><th>Cidade/UF</th><th>Loja / Capítulo</th><th>Status</th></tr></thead>
       <tbody id="rows"><tr><td colspan="5" class="empty">Carregando…</td></tr></tbody>
     </table>
   </div>
-
   <footer>Chapel Master Felício de Paulo Nº 129 · Order of St Thomas of Acon · Province of South America</footer>
-
 <script>
-// ── CONFIG ──────────────────────────────────────────────
-// Cole aqui o link CSV da planilha publicada do Google Sheets:
 const CONFIG = { csvUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRy073iFvsL4UmQLcSuB7eXaWh8wbXkTQyUErns0yaQZb5h5lNweom6KGPwoqFj0twCopDt6Y8bUbxi/pub?gid=196028296&single=true&output=csv" };
-// ────────────────────────────────────────────────────────
-
 let DATA = [];
 const $=s=>document.querySelector(s);
-
 function parseCSV(t){
   const rows=[]; let row=[],cur="",q=false;
   for(let i=0;i<t.length;i++){const c=t[i];
@@ -126,14 +98,11 @@ function parseCSV(t){
   if(cur!==""||row.length){row.push(cur);rows.push(row);}
   return rows;
 }
-
-// mapeia cabeçalhos da planilha (flexível) para campos do painel
 function idx(headers, ...keys){
   const H=headers.map(h=>h.toLowerCase());
   for(const k of keys){const i=H.findIndex(h=>h.includes(k));if(i>=0)return i;}
   return -1;
 }
-
 function render(){
   const term=$('#q').value.toLowerCase().trim();
   const st=$('#fStatus').value;
@@ -158,11 +127,7 @@ function render(){
     <span class="chip c-ENVIADO">Enviado ${by('ENVIADO')}</span>
     <span class="chip c-REVISAR">Revisar ${by('REVISAR')}</span>`;
 }
-
 async function load(){
-  if(!CONFIG.csvUrl){ $('#setup').style.display='block';
-    $('#rows').innerHTML='<tr><td colspan="5" class="empty"><img src="emb_0.png"><br>Aguardando link da planilha.</td></tr>';
-    $('#stats').innerHTML=''; return; }
   try{
     const r=await fetch(CONFIG.csvUrl); const rows=parseCSV(await r.text());
     const H=rows[0];
@@ -180,4 +145,10 @@ async function load(){
         loja:c.loja>=0?r[c.loja]:'', capitulo:c.capitulo>=0?r[c.capitulo]:'',
         status:(c.status>=0?r[c.status]:'').toUpperCase()||'PENDENTE' }; });
     render();
-  }catch(e){ $('#rows').innerHTML='<tr><td colspan="5" class="empty">Erro ao carregar a plani
+  }catch(e){ $('#rows').innerHTML='<tr><td colspan="5" class="empty">Erro ao carregar a planilha.</td></tr>'; }
+}
+$('#q').addEventListener('input',render); $('#fStatus').addEventListener('change',render);
+load();
+</script>
+</body>
+</html>
