@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel de Candidatos — Chapel Nº 129</title>
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="favicon-180.png">
+<style>
+  :root{
+    --crimson:#8C322B; --crimson-d:#6E2722; --gold:#9E814C; --gold-l:#C9A227;
+    --stone:#F5F2EA; --stone-2:#FBFAF6; --ink:#2B2B2B; --line:#E2D9C7;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:Georgia,'Times New Roman',serif;color:var(--ink);background:var(--stone);line-height:1.6}
+  a{color:var(--crimson)}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+
+  nav{position:sticky;top:0;z-index:20;background:var(--crimson-d);box-shadow:0 2px 6px rgba(0,0,0,.18)}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:54px}
+  nav .brand{color:#fff;font-size:.82rem;letter-spacing:.16em;text-transform:uppercase}
+  nav .brand b{color:var(--gold-l)}
+  nav ul{list-style:none;display:flex;gap:8px}
+  nav a{color:#f0e7da;text-decoration:none;font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;
+    padding:8px 14px;border-radius:20px;transition:.2s}
+  nav a:hover,nav a.active{background:var(--crimson);color:#fff}
+
+  header.ph{background:linear-gradient(160deg,var(--crimson),var(--crimson-d));color:#fff;
+    padding:30px 24px;border-bottom:4px solid var(--gold-l)}
+  header.ph .wrap{display:flex;align-items:center;gap:18px}
+  header.ph img{width:64px;height:64px;object-fit:contain;filter:drop-shadow(0 3px 8px rgba(0,0,0,.4))}
+  header.ph h1{font-size:1.5rem}
+  header.ph .sub{color:var(--gold-l);font-style:italic;font-size:.95rem}
+
+  .toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:26px 0 8px}
+  .toolbar input,.toolbar select{font-family:inherit;font-size:.92rem;padding:9px 12px;border:1px solid var(--line);
+    border-radius:6px;background:#fff}
+  .toolbar input{flex:1;min-width:200px}
+  .chip{font-family:Arial,sans-serif;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;
+    padding:3px 10px;border-radius:20px;color:#fff;white-space:nowrap}
+  .c-PENDENTE{background:#b08400}.c-OK{background:#2f7d32}.c-ENVIADO{background:#2b6ca3}.c-REVISAR{background:#a33b2b}
+  .stats{display:flex;gap:10px;flex-wrap:wrap;margin:6px 0 18px;font-family:Arial,sans-serif;font-size:.85rem;color:#6f665a}
+  .stats b{color:var(--crimson-d)}
+
+  table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  thead th{background:var(--crimson);color:#fff;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;
+    padding:11px 12px;text-align:left;font-family:Arial,sans-serif}
+  tbody td{padding:10px 12px;border-top:1px solid var(--line);font-size:.92rem;vertical-align:top}
+  tbody tr:nth-child(even){background:var(--stone-2)}
+  tbody tr:hover{background:#f3ece0}
+  .nm{font-weight:bold;color:var(--crimson-d)}
+  .muted{color:#8a8275;font-size:.84rem}
+  .empty{text-align:center;padding:60px 20px;color:#8a8275}
+  .empty img{width:90px;opacity:.5;margin-bottom:14px}
+  footer{background:var(--crimson-d);color:#e9ddd0;text-align:center;padding:24px;font-size:.82rem;margin-top:40px}
+
+  .setup{background:#fff;border:1px dashed var(--gold);border-radius:8px;padding:18px 22px;margin:18px 0;font-size:.9rem}
+  .setup code{background:var(--stone);padding:2px 6px;border-radius:4px;font-size:.85rem}
+</style>
+</head>
+<body>
+  <nav>
+    <div class="wrap">
+      <div class="brand">St Thomas of Acon · <b>Chapel 129</b></div>
+      <ul>
+        <li><a href="index.html">Início</a></li>
+        <li><a href="formulario.html">Formulário</a></li>
+        <li><a class="active" href="painel.html">Painel</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <header class="ph">
+    <div class="wrap">
+      <img src="logo.png" alt="">
+      <div>
+        <h1>Painel de Candidatos</h1>
+        <div class="sub">Capela Master Felício de Paulo Nº 129</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <div id="setup" class="setup" style="display:none">
+      <b>Configuração pendente.</b> Para o painel ler os candidatos automaticamente, publique a planilha
+      do Google (Arquivo → Compartilhar → Publicar na web → CSV) e cole o link em
+      <code>CONFIG.csvUrl</code> no topo deste arquivo (<code>painel.html</code>).
+    </div>
+
+    <div class="toolbar">
+      <input id="q" type="text" placeholder="Buscar por nome, cidade, loja…">
+      <select id="fStatus">
+        <option value="">Todos os status</option>
+        <option value="PENDENTE">Pendente</option>
+        <option value="OK">OK</option>
+        <option value="ENVIADO">Enviado</option>
+        <option value="REVISAR">Revisar</option>
+      </select>
+    </div>
+    <div class="stats" id="stats"></div>
+
+    <table>
+      <thead><tr><th>Candidato</th><th>Nomen</th><th>Cidade/UF</th><th>Loja / Capítulo</th><th>Status</th></tr></thead>
+      <tbody id="rows"><tr><td colspan="5" class="empty">Carregando…</td></tr></tbody>
+    </table>
+  </div>
+
+  <footer>Chapel Master Felício de Paulo Nº 129 · Order of St Thomas of Acon · Province of South America</footer>
+
+<script>
+// ── CONFIG ──────────────────────────────────────────────
+// Cole aqui o link CSV da planilha publicada do Google Sheets:
+const CONFIG = { csvUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRy073iFvsL4UmQLcSuB7eXaWh8wbXkTQyUErns0yaQZb5h5lNweom6KGPwoqFj0twCopDt6Y8bUbxi/pub?gid=196028296&single=true&output=csv" };
+// ────────────────────────────────────────────────────────
+
+let DATA = [];
+const $=s=>document.querySelector(s);
+
+function parseCSV(t){
+  const rows=[]; let row=[],cur="",q=false;
+  for(let i=0;i<t.length;i++){const c=t[i];
+    if(q){ if(c==='"'){ if(t[i+1]==='"'){cur+='"';i++;} else q=false;} else cur+=c; }
+    else { if(c==='"')q=true; else if(c===','){row.push(cur);cur="";}
+      else if(c==='\n'){row.push(cur);rows.push(row);row=[];cur="";}
+      else if(c==='\r'){} else cur+=c; } }
+  if(cur!==""||row.length){row.push(cur);rows.push(row);}
+  return rows;
+}
+
+// mapeia cabeçalhos da planilha (flexível) para campos do painel
+function idx(headers, ...keys){
+  const H=headers.map(h=>h.toLowerCase());
+  for(const k of keys){const i=H.findIndex(h=>h.includes(k));if(i>=0)return i;}
+  return -1;
+}
+
+function render(){
+  const term=$('#q').value.toLowerCase().trim();
+  const st=$('#fStatus').value;
+  const list=DATA.filter(d=>{
+    if(st && d.status!==st) return false;
+    if(term && !(d.nome+d.nomen+d.cidade+d.loja+d.capitulo).toLowerCase().includes(term)) return false;
+    return true;
+  });
+  const tb=$('#rows');
+  if(!list.length){ tb.innerHTML='<tr><td colspan="5" class="empty"><img src="emb_0.png"><br>Nenhum candidato encontrado.</td></tr>'; }
+  else tb.innerHTML=list.map(d=>`<tr>
+    <td><span class="nm">${d.nome||'—'}</span><br><span class="muted">${d.email||''}</span></td>
+    <td>${d.nomen||'—'}</td>
+    <td>${d.cidade||'—'}${d.uf?' / '+d.uf:''}</td>
+    <td>${d.loja||'—'}<br><span class="muted">${d.capitulo||''}</span></td>
+    <td><span class="chip c-${d.status||'PENDENTE'}">${d.status||'PENDENTE'}</span></td>
+  </tr>`).join('');
+  const by=s=>DATA.filter(d=>d.status===s).length;
+  $('#stats').innerHTML=`<span>Total: <b>${DATA.length}</b></span>
+    <span class="chip c-PENDENTE">Pendente ${by('PENDENTE')}</span>
+    <span class="chip c-OK">OK ${by('OK')}</span>
+    <span class="chip c-ENVIADO">Enviado ${by('ENVIADO')}</span>
+    <span class="chip c-REVISAR">Revisar ${by('REVISAR')}</span>`;
+}
+
+async function load(){
+  if(!CONFIG.csvUrl){ $('#setup').style.display='block';
+    $('#rows').innerHTML='<tr><td colspan="5" class="empty"><img src="emb_0.png"><br>Aguardando link da planilha.</td></tr>';
+    $('#stats').innerHTML=''; return; }
+  try{
+    const r=await fetch(CONFIG.csvUrl); const rows=parseCSV(await r.text());
+    const H=rows[0];
+    const c={nome:idx(H,'christian','nome compl','sobrenome','surname'),
+      sobrenome:idx(H,'surname','sobrenome'),
+      nomenN:idx(H,'sir','nomen'), nomenL:idx(H,'of','local'),
+      cidade:idx(H,'city','cidade'), uf:idx(H,'county','state','estado'),
+      email:idx(H,'mail'), loja:idx(H,'raised','loja'), capitulo:idx(H,'exalted','capítulo','chapter'),
+      status:idx(H,'status')};
+    DATA=rows.slice(1).filter(r=>r.some(x=>x&&x.trim())).map(r=>{
+      const sob=c.sobrenome>=0?r[c.sobrenome]:''; const nm=c.nome>=0?r[c.nome]:'';
+      return { nome:[nm,sob].filter(Boolean).join(' '),
+        nomen:(c.nomenN>=0?r[c.nomenN]:'')+(c.nomenL>=0&&r[c.nomenL]?' of '+r[c.nomenL]:''),
+        cidade:c.cidade>=0?r[c.cidade]:'', uf:c.uf>=0?r[c.uf]:'', email:c.email>=0?r[c.email]:'',
+        loja:c.loja>=0?r[c.loja]:'', capitulo:c.capitulo>=0?r[c.capitulo]:'',
+        status:(c.status>=0?r[c.status]:'').toUpperCase()||'PENDENTE' }; });
+    render();
+  }catch(e){ $('#rows').innerHTML='<tr><td colspan="5" class="empty">Erro ao carregar a plani

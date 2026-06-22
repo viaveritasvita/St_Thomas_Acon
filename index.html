@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapel Master Felício de Paulo Nº 129 — Order of St Thomas of Acon</title>
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="favicon-180.png">
+<style>
+  :root{
+    --crimson:#8C322B; --crimson-d:#6E2722; --gold:#9E814C; --gold-l:#C9A227;
+    --stone:#F5F2EA; --stone-2:#FBFAF6; --ink:#2B2B2B; --line:#E2D9C7;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:Georgia,'Times New Roman',serif;color:var(--ink);background:var(--stone);line-height:1.7}
+  a{color:var(--crimson)}
+  .wrap{max-width:980px;margin:0 auto;padding:0 24px}
+
+  /* Nav */
+  nav{position:sticky;top:0;z-index:20;background:var(--crimson-d);box-shadow:0 2px 6px rgba(0,0,0,.18)}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:54px}
+  nav .brand{color:#fff;font-size:.82rem;letter-spacing:.16em;text-transform:uppercase}
+  nav .brand b{color:var(--gold-l)}
+  nav ul{list-style:none;display:flex;gap:8px}
+  nav a{color:#f0e7da;text-decoration:none;font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;
+    padding:8px 14px;border-radius:20px;transition:.2s}
+  nav a:hover,nav a.active{background:var(--crimson);color:#fff}
+
+  /* Hero */
+  header.hero{background:
+      radial-gradient(circle at 50% -10%, rgba(201,162,39,.18), transparent 60%),
+      linear-gradient(160deg,var(--crimson) 0%, var(--crimson-d) 100%);
+    color:#fff;text-align:center;padding:56px 24px 64px;border-bottom:5px solid var(--gold-l)}
+  .crest{width:172px;height:172px;object-fit:contain;
+    filter:drop-shadow(0 6px 16px rgba(0,0,0,.45));margin-bottom:20px}
+  header.hero .order{font-size:.95rem;letter-spacing:.42em;text-transform:uppercase;opacity:.9}
+  header.hero h1{font-size:2.5rem;margin:8px 0 4px}
+  header.hero .chapel{font-size:1.3rem;color:var(--gold-l);font-style:italic}
+  header.hero .no{display:inline-block;margin-top:16px;border:2px solid var(--gold-l);border-radius:30px;
+    padding:5px 20px;font-size:.92rem;letter-spacing:.1em}
+
+  section{padding:54px 0}
+  section.alt{background:var(--stone-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  h2{color:var(--crimson);font-size:1.8rem;text-align:center;margin-bottom:8px}
+  h2 .scallop{height:1.5rem;vertical-align:-4px;margin-right:8px}
+  .sub{text-align:center;color:#7a7163;font-style:italic;margin-bottom:36px}
+  .lead{font-size:1.12rem;text-align:center;max-width:780px;margin:0 auto 30px;color:#43392f}
+
+  .prose p{margin:0 auto 18px;max-width:800px}
+  .prose .drop::first-letter{font-size:3.1rem;float:left;line-height:.8;padding:6px 10px 0 0;color:var(--crimson);font-weight:bold}
+  .prose ul{max-width:760px;margin:0 auto 18px;padding-left:0;list-style:none}
+  .prose li{padding:5px 0 5px 26px;position:relative}
+  .prose li::before{content:"❧";color:var(--gold);position:absolute;left:2px}
+  .pull{border-left:4px solid var(--gold-l);background:#fff;padding:16px 22px;max-width:780px;margin:24px auto;
+    font-style:italic;color:var(--crimson-d);font-size:1.08rem}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px}
+  .card{background:#fff;border:1px solid var(--line);border-top:3px solid var(--gold);
+    border-radius:6px;padding:20px 22px;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+  .card h3{color:var(--crimson-d);font-size:1.05rem;margin-bottom:8px;border-bottom:1px solid var(--line);padding-bottom:6px}
+  .card ul{list-style:none;font-size:.94rem}
+  .card li{padding:3px 0 3px 16px;position:relative}
+  .card li::before{content:"❧";color:var(--gold);position:absolute;left:0}
+
+  .cta{text-align:center}
+  .btn{display:inline-block;background:var(--crimson);color:#fff;text-decoration:none;
+    padding:14px 36px;margin:6px;border-radius:30px;font-size:1.02rem;letter-spacing:.04em;
+    border:2px solid var(--gold-l);transition:.2s}
+  .btn:hover{background:var(--crimson-d)}
+  .btn.ghost{background:transparent;color:var(--crimson)}
+  .btn.ghost:hover{background:var(--crimson);color:#fff}
+  .btn.sm{padding:9px 22px;font-size:.9rem;margin:4px 6px}
+
+  /* Faixa de candidatura compacta */
+  .ctaband{padding:18px 0;background:var(--stone-2);border-bottom:1px solid var(--line)}
+  .ctaband .wrap{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap}
+  .ctaband .cta-label{font-size:.82rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);
+    font-family:Arial,sans-serif}
+  .ctaband .btn.ghost{border-color:var(--gold-l)}
+  .note{font-size:.85rem;color:#8a8275;margin-top:12px}
+
+  footer{background:var(--crimson-d);color:#e9ddd0;text-align:center;padding:32px 24px;font-size:.85rem}
+  footer .scallop{height:36px;opacity:.9;margin-bottom:10px}
+  @media(max-width:640px){header.hero h1{font-size:1.8rem} nav .brand{display:none}}
+</style>
+</head>
+<body>
+  <nav>
+    <div class="wrap">
+      <div class="brand">St Thomas of Acon · <b>Chapel 129</b></div>
+      <ul>
+        <li><a class="active" href="index.html">Início</a></li>
+        <li><a href="formulario.html">Formulário</a></li>
+        <li><a href="painel.html">Painel</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <img class="crest" src="logo.png" alt="Medalhão da Ordem de St Thomas of Acon">
+    <div class="order">Ye Commemorative Order of St Thomas of Acon</div>
+    <h1>Chapel Master Felício de Paulo</h1>
+    <div class="chapel">Capela de Instalação</div>
+    <div class="no">CHAPEL Nº 129 · PROVINCE OF SOUTH AMERICA</div>
+  </header>
+
+  <!-- A ORDEM -->
+  <!-- CTA COMPACTA / CANDIDATURA -->
+  <section id="formulario" class="ctaband">
+    <div class="wrap">
+      <span class="cta-label">Candidatura · Capela Nº 129</span>
+      <a class="btn sm" href="formulario.html" id="formLink">Preencher o Formulário</a>
+      <a class="btn sm ghost" href="painel.html">Painel de Candidatos</a>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap prose">
+      <h2><img class="scallop" src="emb_0.png" alt="">A Ordem de Saint Thomas of Acon</h2>
+      <p class="sub">Uma tradicional Ordem de Cavalaria Cristã de origem inglesa</p>
+      <p class="lead">Inspirada em uma antiga ordem medieval fundada durante o período das Cruzadas, a Ordem de Saint Thomas of Acon preserva os ideais de fé, caridade e cavalheirismo nascidos na Terra Santa.</p>
+      <p class="drop">Sua origem remonta ao ano de 1191, durante a Terceira Cruzada, quando o Rei Ricardo I da Inglaterra, conhecido como Ricardo Coração de Leão, conquistou a cidade de Acre, na Terra Santa. Na ocasião, um sacerdote inglês chamado William, sensibilizado com a grande quantidade de cavaleiros cristãos mortos e feridos após a batalha, passou a cuidar dos enfermos e a providenciar o sepultamento digno dos combatentes cristãos.</p>
+      <p>Com o auxílio de outros irmãos, William fundou uma fraternidade com o propósito de:</p>
+      <ul>
+        <li>sepultar os cavaleiros cristãos mortos em combate;</li>
+        <li>auxiliar os feridos;</li>
+        <li>arrecadar recursos para libertar cristãos capturados pelos sarracenos.</li>
+      </ul>
+      <p>Como a Ordem foi fundada em Acre (<em>Acon</em>, em sua forma anglicizada), recebeu o nome de Ordem de Saint Thomas of Acon, em homenagem a São Thomas Becket, Arcebispo de Canterbury e mártir da fé cristã.</p>
+      <p>Com o passar do tempo, a Ordem deixou de possuir apenas funções hospitalares e religiosas, tornando-se também uma Ordem de Cavalaria Militar, atuando ao lado dos Cavaleiros Templários, Hospitalários e Teutônicos nas Cruzadas.</p>
+      <div class="pull">A Ordem de Saint Thomas of Acon destacou-se por ser a única ordem de cavalaria genuinamente inglesa fundada na Terra Santa.</div>
+      <p>Após o período das Cruzadas, a Ordem estabeleceu-se em Londres, na região de Cheapside, onde construiu sua capela e sede administrativa. Seus registros históricos demonstram que a Ordem continuou ativa até o período da dissolução das ordens religiosas promovida pelo Rei Henrique VIII no século XVI.</p>
+      <p>A atual Ordem maçônica é um renascimento moderno dessa antiga tradição inglesa, preservando seus ideais de fé cristã, caridade, cavalheirismo, serviço ao próximo, honra e fraternidade.</p>
+      <p>Mais do que uma ordem honorífica, Saint Thomas of Acon busca incentivar a prática ativa dos valores cristãos, da caridade e do serviço fraternal, mantendo viva uma das mais belas tradições da Cavalaria Cristã Inglesa.</p>
+    </div>
+  </section>
+
+  <!-- SÍMBOLOS / QUALIFICAÇÃO -->
+  <section class="alt">
+    <div class="wrap">
+      <h2><img class="scallop" src="emb_0.png" alt="">Símbolos e Qualificação</h2>
+      <p class="sub">A herança visual da Ordem e quem pode ingressar</p>
+      <div class="grid">
+        <div class="card">
+          <h3>Símbolo</h3>
+          <ul>
+            <li>A concha de vieira (escallope) — o sinal do peregrino</li>
+            <li>Cruz latina carmesim com cruz branca sobreposta</li>
+            <li>Concha em bronze, prata ou ouro conforme a dignidade</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Cores</h3>
+          <ul>
+            <li>Medici Crimson — o carmesim da Ordem</li>
+            <li>Stone White — o branco-pedra do manto</li>
+            <li>Dourado — acentos e dignidades</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Quem pode ingressar</h3>
+          <ul>
+            <li>Mestre Maçom em dia</li>
+            <li>Companheiro do Arco Real</li>
+            <li>Cavaleiro Templário (tradição inglesa ou americana)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <img class="scallop" src="emb_0.png" alt="">
+    <div>Chapel Master Felício de Paulo Nº 129 · Order of St Thomas of Acon</div>
+    <div style="opacity:.7;margin-top:6px">Province of South America</div>
+  </footer>
+</body>
+</html>

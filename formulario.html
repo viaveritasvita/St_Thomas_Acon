@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formulário de Candidatura — Chapel Master Felício de Paulo Nº 129</title>
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="favicon-180.png">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --crimson:#8C322B; --crimson-d:#6E2722; --crimson-mid:#7A2C26;
+  --gold:#9E814C; --gold-light:#C9A227; --gold-dark:#7A5F1A;
+  --cream:#FAF6EE; --cream-dark:#EEE8D8; --stone:#F5F2EA;
+  --text:#2B2218; --text-mid:#4A3C28; --text-light:#7A6A50;
+  --red:#8B2020; --green:#1A5C2A; --border:#D8C9A6; --border-light:#E6DCC2;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--cream); color: var(--text); font-family: 'EB Garamond', Georgia, serif; font-size: 17px; line-height: 1.6; min-height: 100vh; }
+.cover { background: var(--crimson-d); padding: 40px 40px 36px; text-align: center; position: relative; overflow: hidden; }
+.cover::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(45deg,transparent,transparent 60px,rgba(201,162,39,0.05) 60px,rgba(201,162,39,0.05) 61px); pointer-events: none; }
+.cover-logo { width: 122px; height: 122px; border-radius: 50%; object-fit: contain; display: block; margin: 0 auto 16px; position: relative; z-index: 1; filter: drop-shadow(0 4px 12px rgba(0,0,0,.4)); }
+.cover h1 { font-family: 'Cinzel', serif; font-size: 13px; font-weight: 600; color: var(--gold-light); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 6px; position: relative; z-index: 1; }
+.cover h2 { font-family: 'Cinzel', serif; font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 8px; position: relative; z-index: 1; }
+.cover p { font-size: 14px; color: rgba(201,162,39,0.7); font-style: italic; letter-spacing: 1px; position: relative; z-index: 1; }
+.cover-divider { width: 120px; height: 1px; background: linear-gradient(90deg,transparent,var(--gold-light),transparent); margin: 14px auto; position: relative; z-index: 1; }
+.cover-nav { position: relative; z-index: 1; margin-top: 16px; }
+.cover-nav a { color: rgba(201,162,39,.75); text-decoration: none; font-family:'Cinzel',serif; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; border:1px solid rgba(201,162,39,.35); padding:7px 16px; border-radius:7px; margin:0 5px; }
+.cover-nav a:hover { color:#fff; border-color: var(--gold-light); }
+.notice { background: #FFF8E8; border-left: 4px solid var(--gold); padding: 16px 20px; margin: 28px 40px 0; border-radius: 0 4px 4px 0; font-size: 15px; color: var(--text-mid); line-height: 1.6; }
+.form-wrap { max-width: 860px; margin: 0 auto; padding: 0 40px 60px; }
+.section { background: white; border: 1px solid var(--border-light); border-radius: 8px; padding: 28px 32px; margin-top: 28px; box-shadow: 0 2px 8px rgba(110,39,34,0.06); }
+.section-header { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--border-light); }
+.section-num { background: var(--crimson-d); color: var(--gold-light); font-family: 'Cinzel', serif; font-size: 14px; font-weight: 700; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.section-title { font-family: 'Cinzel', serif; font-size: 15px; font-weight: 600; color: var(--crimson-d); letter-spacing: 1px; text-transform: uppercase; }
+.section-subtitle { font-family: 'EB Garamond', serif; font-size: 13px; font-weight: 400; color: var(--text-light); font-style: italic; letter-spacing: 0; text-transform: none; }
+.field-grid { display: grid; gap: 18px; }
+.field-grid.cols-2 { grid-template-columns: 1fr 1fr; }
+.field-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+.field-grid.cols-4 { grid-template-columns: 2fr 1fr 1fr 1fr; }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label { font-family: 'Cinzel', serif; font-size: 12px; font-weight: 600; color: var(--crimson-d); letter-spacing: 0.8px; text-transform: uppercase; }
+.field label .en { font-family: 'EB Garamond', serif; font-size: 12px; font-weight: 400; color: var(--text-light); text-transform: none; letter-spacing: 0; font-style: italic; }
+.field label .req { color: var(--red); }
+.field input, .field select, .field textarea { width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: 4px; background: var(--cream); color: var(--text); font-family: 'EB Garamond', serif; font-size: 16px; transition: all 0.2s; outline: none; }
+.field textarea { resize: vertical; min-height: 80px; }
+.field input:focus, .field select:focus, .field textarea:focus { border-color: var(--gold); background: white; box-shadow: 0 0 0 3px rgba(158,129,76,0.12); }
+.field-hint { font-size: 13px; color: var(--text-light); font-style: italic; line-height: 1.4; }
+.field-hint code { background: var(--cream-dark); padding: 1px 5px; border-radius: 3px; font-style: normal; font-size: 12px; }
+.field-fixed input { background: var(--cream-dark) !important; color: var(--text-light) !important; font-style: italic; }
+
+/* === Campo de Assinatura === */
+.sig-upload-area { border: 2px dashed var(--border); border-radius: 6px; background: var(--cream); padding: 24px 20px; text-align: center; cursor: pointer; transition: all 0.2s; position: relative; }
+.sig-upload-area:hover { border-color: var(--gold); background: white; }
+.sig-upload-area.has-image { border-style: solid; border-color: var(--gold-dark); background: white; }
+.sig-upload-icon { font-size: 28px; margin-bottom: 8px; display: block; }
+.sig-upload-text { font-family: 'EB Garamond', serif; font-size: 15px; color: var(--text-light); font-style: italic; }
+.sig-upload-text strong { display: block; font-style: normal; font-family: 'Cinzel', serif; font-size: 12px; color: var(--crimson-d); letter-spacing: 0.5px; margin-bottom: 4px; }
+#sigPreview { display: none; max-width: 100%; max-height: 180px; margin: 12px auto 0; border: 1px solid var(--border-light); border-radius: 4px; object-fit: contain; background: white; padding: 8px; }
+.sig-btn-group { display: flex; gap: 10px; justify-content: center; margin-top: 10px; flex-wrap: wrap; }
+.sig-btn-option { background: var(--crimson-d); color: var(--gold-light); font-family: 'Cinzel', serif; font-size: 12px; letter-spacing: 0.5px; padding: 8px 18px; border: 1px solid var(--gold-dark); border-radius: 4px; cursor: pointer; transition: all 0.2s; }
+.sig-btn-option:hover { background: var(--gold-dark); color: white; }
+.sig-remove { display: none; margin-top: 10px; background: none; border: 1px solid var(--red); color: var(--red); font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: 0.5px; padding: 5px 14px; border-radius: 3px; cursor: pointer; transition: all 0.2s; }
+.sig-remove:hover { background: var(--red); color: white; }
+/* === / Campo de Assinatura === */
+
+.declaration { background: var(--stone); border:1px solid var(--border-light); border-radius:6px; padding:18px 22px; font-size:15px; color:var(--text-mid); line-height:1.65; font-style:italic; }
+.submit-wrap { text-align: center; margin-top: 40px; padding-top: 32px; border-top: 1px solid var(--border-light); }
+.submit-wrap p { font-size: 14px; color: var(--text-light); font-style: italic; margin-bottom: 20px; line-height: 1.5; }
+.btn-submit { background: var(--crimson-d); color: var(--gold-light); font-family: 'Cinzel', serif; font-size: 13px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; border: 1px solid var(--gold-dark); border-radius: 4px; padding: 14px 48px; cursor: pointer; transition: all 0.2s; }
+.btn-submit:hover { background: var(--gold-dark); color: white; border-color: var(--gold-light); }
+.btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+.success-msg { display: none; background: #EAF5EC; border: 1px solid var(--green); border-radius: 6px; padding: 20px 24px; margin-top: 20px; color: var(--green); font-size: 16px; text-align: center; }
+.error-msg { display: none; background: #FEF0F0; border: 1px solid var(--red); border-radius: 6px; padding: 20px 24px; margin-top: 20px; color: var(--red); font-size: 16px; text-align: center; }
+footer { background: var(--crimson-mid); border-top: 1px solid var(--gold-dark); padding: 20px 40px; text-align: center; font-size: 12px; color: rgba(201,162,39,0.55); font-style: italic; letter-spacing: 0.5px; }
+@media (max-width: 640px) {
+  .field-grid.cols-2, .field-grid.cols-3, .field-grid.cols-4 { grid-template-columns: 1fr; }
+  .cover, .form-wrap { padding-left: 20px; padding-right: 20px; }
+  .notice { margin-left: 20px; margin-right: 20px; }
+  .section { padding: 20px 18px; }
+}
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <img class="cover-logo" src="logo.png" alt="Medalhão da Ordem de St Thomas of Acon">
+  <h1>Ye Commemorative Order of St Thomas of Acon</h1>
+  <div class="cover-divider"></div>
+  <h2>Formulário de Candidatura</h2>
+  <p>Chapel Master Felício de Paulo Nº 129 · Province of South America</p>
+  <div class="cover-nav"><a href="index.html">Início</a><a href="painel.html">Painel</a></div>
+</div>
+
+<div class="notice">
+  <strong>Atenção:</strong> Preencha todos os campos obrigatórios (<span style="color:var(--red)">*</span>) com atenção. As informações devem coincidir exatamente com seus registros maçônicos oficiais e com sua Certidão de Nascimento.
+</div>
+
+<div class="form-wrap">
+<form id="mainForm" onsubmit="enviarFormulario(event)">
+
+  <!-- SEÇÃO I — Identificação da Capela -->
+  <div class="section" style="margin-top:32px">
+    <div class="section-header">
+      <span class="section-num">I</span>
+      <div>
+        <div class="section-title">Identificação da Capela</div>
+        <div class="section-subtitle">Chapel Identification</div>
+      </div>
+    </div>
+    <div class="field-grid cols-3">
+      <div class="field field-fixed">
+        <label>Capela <em class="en">(Chapel)</em></label>
+        <input type="text" value="MASTER FELÍCIO DE PAULO" readonly>
+      </div>
+      <div class="field field-fixed">
+        <label>Número <em class="en">(Chapel No.)</em></label>
+        <input type="text" value="129" readonly>
+      </div>
+      <div class="field field-fixed">
+        <label>Província <em class="en">(Province)</em></label>
+        <input type="text" value="South America" readonly>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEÇÃO II — Dados do Candidato -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">II</span>
+      <div>
+        <div class="section-title">Dados do Candidato</div>
+        <div class="section-subtitle">Candidate's Personal Details</div>
+      </div>
+    </div>
+    <div class="field-grid">
+
+      <div class="field-grid cols-2">
+        <div class="field">
+          <label>Nomes completos de batismo <em class="en">(Full Christian Names)</em> <span class="req">*</span></label>
+          <input type="text" name="christianNames" required placeholder="Ex: João Carlos Eduardo">
+          <span class="field-hint">Exatamente como na Certidão de Nascimento, <strong>sem abreviar</strong>.</span>
+        </div>
+        <div class="field">
+          <label>Sobrenome <em class="en">(Surname)</em> <span class="req">*</span></label>
+          <input type="text" name="surname" required placeholder="Ex: Oliveira Santos">
+        </div>
+      </div>
+
+      <div class="field-grid cols-2">
+        <div class="field">
+          <label>Nomen — nome <em class="en">(To be known as Sir…)</em> <span class="req">*</span></label>
+          <input type="text" name="nomenName" required placeholder="Ex: João">
+        </div>
+        <div class="field">
+          <label>Nomen — local <em class="en">(…of)</em> <span class="req">*</span></label>
+          <input type="text" name="nomenPlace" required placeholder="Ex: São Paulo">
+        </div>
+      </div>
+      <span class="field-hint" style="margin-top:-6px">O <em>Nomen</em> é o título pelo qual será conhecido na Ordem (ex.: <code>Sir João of São Paulo</code>). O local deve existir no mapa e ter significado para o candidato. Se o Nomen já estiver em uso, será acrescido um numeral (ex.: Sir David IV of London).</span>
+
+      <div class="field">
+        <label>Endereço <em class="en">(Address)</em> <span class="req">*</span></label>
+        <input type="text" name="address" required placeholder="Ex: Rua das Acácias, 100, apto. 50, Jardim Primavera">
+      </div>
+
+      <div class="field-grid cols-4">
+        <div class="field">
+          <label>Cidade <em class="en">(City/Town)</em> <span class="req">*</span></label>
+          <input type="text" name="city" required placeholder="Ex: São Paulo">
+        </div>
+        <div class="field">
+          <label>Estado <em class="en">(County/State)</em> <span class="req">*</span></label>
+          <input type="text" name="state" required placeholder="Ex: São Paulo">
+        </div>
+        <div class="field">
+          <label>CEP <em class="en">(Post Code)</em> <span class="req">*</span></label>
+          <input type="text" name="postcode" required placeholder="Ex: 01000-000">
+        </div>
+        <div class="field">
+          <label>País <em class="en">(Country)</em> <span class="req">*</span></label>
+          <input type="text" name="country" required value="Brazil">
+        </div>
+      </div>
+
+      <div class="field-grid cols-2">
+        <div class="field">
+          <label>Data de Nascimento <em class="en">(Date of Birth)</em> <span class="req">*</span></label>
+          <input type="date" name="dob" required>
+          <span class="field-hint">Usada para consideração de honrarias futuras por idade.</span>
+        </div>
+        <div class="field">
+          <label>E-mail <em class="en">(e-mail Addr)</em> <span class="req">*</span></label>
+          <input type="email" name="email" required placeholder="Ex: seu@email.com">
+        </div>
+      </div>
+
+      <div class="field-grid cols-3">
+        <div class="field">
+          <label>Telefone residencial <em class="en">(Home Phone)</em></label>
+          <input type="tel" name="homeTel" placeholder="Ex: (0055) 21 3333-3333">
+        </div>
+        <div class="field">
+          <label>Telefone comercial <em class="en">(Work)</em></label>
+          <input type="tel" name="workTel" placeholder="Opcional">
+        </div>
+        <div class="field">
+          <label>Celular <em class="en">(Mobile)</em> <span class="req">*</span></label>
+          <input type="tel" name="mobileTel" required placeholder="Ex: (0055) 11 99999-9999">
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SEÇÃO III — Trajetória Maçônica -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">III</span>
+      <div>
+        <div class="section-title">Trajetória Maçônica</div>
+        <div class="section-subtitle">Masonic Details</div>
+      </div>
+    </div>
+    <div class="field-grid">
+
+      <!-- Loja -->
+      <div class="field-grid cols-4">
+        <div class="field">
+          <label>Elevado na Loja <em class="en">(Raised in)</em> <span class="req">*</span></label>
+          <input type="text" name="raisedLodge" required placeholder="Ex: Loja União e Progresso">
+        </div>
+        <div class="field">
+          <label>Nº <em class="en">(Lodge No.)</em> <span class="req">*</span></label>
+          <input type="text" name="lodgeNo" required placeholder="100">
+        </div>
+        <div class="field">
+          <label>Data <em class="en">(on)</em> <span class="req">*</span></label>
+          <input type="date" name="lodgeDate" required>
+        </div>
+        <div class="field">
+          <label>Constituição <em class="en">(Constitution)</em> <span class="req">*</span></label>
+          <input type="text" name="lodgeConst" required placeholder="Ex: GLESP">
+        </div>
+      </div>
+
+      <!-- Capítulo -->
+      <div class="field-grid cols-4">
+        <div class="field">
+          <label>Exaltado no Capítulo <em class="en">(Exalted in)</em> <span class="req">*</span></label>
+          <input type="text" name="exaltedChapter" required placeholder="Ex: Capítulo Estrela do Oriente">
+        </div>
+        <div class="field">
+          <label>Nº <em class="en">(Chapter No.)</em> <span class="req">*</span></label>
+          <input type="text" name="chapterNo" required placeholder="10">
+        </div>
+        <div class="field">
+          <label>Data <em class="en">(on)</em> <span class="req">*</span></label>
+          <input type="date" name="chapterDate" required>
+        </div>
+        <div class="field">
+          <label>Constituição <em class="en">(Constitution)</em> <span class="req">*</span></label>
+          <input type="text" name="chapterConst" required placeholder="Ex: SGCMA">
+        </div>
+      </div>
+
+      <!-- Preceptoria -->
+      <div class="field-grid cols-4">
+        <div class="field">
+          <label>Instalado na Preceptoria <em class="en">(Installed in)</em> <span class="req">*</span></label>
+          <input type="text" name="installedPreceptory" required placeholder="Ex: Preceptoria São Jorge">
+        </div>
+        <div class="field">
+          <label>Nº <em class="en">(Preceptory No.)</em> <span class="req">*</span></label>
+          <input type="text" name="preceptoryNo" required placeholder="25">
+        </div>
+        <div class="field">
+          <label>Data <em class="en">(on)</em> <span class="req">*</span></label>
+          <input type="date" name="preceptoryDate" required>
+        </div>
+        <div class="field">
+          <label>Constituição <em class="en">(Constitution)</em> <span class="req">*</span></label>
+          <input type="text" name="preceptoryConst" required placeholder="Ex: GPB">
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SEÇÃO IV — Declaração -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">IV</span>
+      <div>
+        <div class="section-title">Declaração</div>
+        <div class="section-subtitle">Declaration</div>
+      </div>
+    </div>
+    <div class="declaration">
+      Confirmo que os dados acima estão corretos, que mantenho minha fé na Santíssima Trindade Cristã, que recebi uma cópia da Política de Proteção de Dados e que solicito ingressar na Capela acima nomeada.
+    </div>
+    <div class="field" style="margin-top:18px">
+      <label>Motivo para ingressar <em class="en">(apenas se não mora/trabalha na Província)</em></label>
+      <textarea name="reason" placeholder="Preencha somente se não residir ou trabalhar na Província, conforme a Constituição Sec. 4.4."></textarea>
+    </div>
+  </div>
+
+  <!-- SEÇÃO V — Assinatura -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">V</span>
+      <div>
+        <div class="section-title">Assinatura do Candidato</div>
+        <div class="section-subtitle">Candidate's Signature</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Foto da Assinatura <em class="en">(Signature Photo)</em></label>
+      <div class="sig-upload-area has-buttons" id="sigArea">
+        <span class="sig-upload-icon" id="sigIcon">✒</span>
+        <div class="sig-upload-text" id="sigText">
+          <strong>Anexar assinatura</strong>
+          Assine em papel branco e fotografe ou digitalize.<br>
+          <em style="font-size:12px">(Sign on white paper, then photograph or scan)</em>
+        </div>
+        <div class="sig-btn-group" id="sigBtnGroup">
+          <button type="button" class="sig-btn-option" onclick="abrirCamera()">📷 Tirar foto</button>
+          <button type="button" class="sig-btn-option" onclick="abrirGaleria()">🖼️ Escolher arquivo</button>
+        </div>
+        <input type="file" id="sigInputCamera"  accept="image/*" capture="environment" onchange="previewSig(event)" style="display:none">
+        <input type="file" id="sigInputGaleria" accept="image/*" onchange="previewSig(event)" style="display:none">
+        <img id="sigPreview" alt="Prévia da assinatura">
+      </div>
+      <button type="button" class="sig-remove" id="sigRemoveBtn" onclick="removerSig()">✕ Remover assinatura</button>
+      <span class="field-hint">Assine em papel branco, com caneta azul ou preta. Formatos: JPG, PNG, HEIC. Máx. recomendado: 5 MB.</span>
+    </div>
+  </div>
+
+  <div class="submit-wrap">
+    <p>
+      Ao enviar este formulário, você declara que leu o <em>Data Protection Notice</em> e consente com o processamento de seus dados pessoais para os fins de registro na Ordem (produção do <em>Year Book</em> e atualização do banco de dados).
+    </p>
+    <button type="submit" class="btn-submit" id="btnSubmit">Enviar Candidatura</button>
+    <div class="success-msg" id="successMsg">
+      <strong>✒ Candidatura enviada com sucesso.</strong><br>
+      Seus dados foram recebidos pelo Secretário da Capela Nº 129. Em breve entraremos em contato.
+      <div style="margin-top:16px;font-size:13px;color:#2c6e49;">
+        Redirecionando ao painel em <span id="redirCount">8</span>s…
+      </div>
+      <a href="painel.html" id="goPainel" style="display:inline-block;margin-top:14px;background:var(--crimson-d);color:var(--gold-light);font-family:'Cinzel',serif;font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;border:1px solid var(--gold-dark);border-radius:4px;padding:11px 28px;">Ver painel agora →</a>
+    </div>
+    <div class="error-msg" id="errorMsg">
+      <strong>✗ Erro ao enviar.</strong><br>
+      Por favor, tente novamente ou entre em contato diretamente com o Secretário.
+    </div>
+  </div>
+
+</form>
+</div>
+
+<footer>
+  Chapel Master Felício de Paulo Nº 129 · Province of South America · Order of St Thomas of Acon<br>
+  Form AR 12/2018 · Formulário digital para uso interno
+</footer>
+
+<script>
+// ── CONFIG: cole aqui a URL do Web App do Google Apps Script (nova conta/planilha) ──
+var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyBXEUG0YfboKzgBECU5RuHeHwUFiH3GOW0OYwKICQfLL__QeHHETO-r_aYQyE9Jj7X/exec';
+// ─────────────────────────────────────────────────────────────────────────────────
+
+/* === Assinatura (pipeline idêntico ao da Athelstan) === */
+var sigBase64 = null, sigFileName = null, sigMimeType = null;
+
+function abrirCamera()  { document.getElementById('sigInputCamera').click(); }
+function abrirGaleria() { document.getElementById('sigInputGaleria').click(); }
+
+function mostrarPreviewSig(dataUrl) {
+  sigBase64 = dataUrl;
+  document.getElementById('sigPreview').src = dataUrl;
+  document.getElementById('sigPreview').style.display = 'block';
+  document.getElementById('sigArea').classList.add('has-image');
+  document.getElementById('sigRemoveBtn').style.display = 'inline-block';
+  document.querySelector('.sig-upload-text').style.display = 'none';
+  document.querySelector('.sig-upload-icon').style.display = 'none';
+  document.getElementById('sigBtnGroup').style.display = 'none';
+}
+
+function previewSig(event) {
+  var file = event.target.files[0];
+  if (!file) return;
+  sigFileName = (file.name || 'assinatura').replace(/\.[^.]+$/, '') + '.jpg';
+  sigMimeType = 'image/jpeg';
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var img = new Image();
+    img.onload = function() {
+      var maxLado = 1600, w = img.width, h = img.height;
+      if (w > maxLado || h > maxLado) {
+        if (w >= h) { h = Math.round(h * maxLado / w); w = maxLado; }
+        else { w = Math.round(w * maxLado / h); h = maxLado; }
+      }
+      var canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      var ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#FFFFFF'; ctx.fillRect(0, 0, w, h);
+      ctx.drawImage(img, 0, 0, w, h);
+      try { mostrarPreviewSig(canvas.toDataURL('image/jpeg', 0.9)); }
+      catch (err) { sigMimeType = file.type || 'image/jpeg'; sigFileName = file.name || 'assinatura'; mostrarPreviewSig(e.target.result); }
+    };
+    img.onerror = function() { sigMimeType = file.type || 'image/jpeg'; sigFileName = file.name || 'assinatura'; mostrarPreviewSig(e.target.result); };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function removerSig() {
+  sigBase64 = sigFileName = sigMimeType = null;
+  document.getElementById('sigPreview').src = '';
+  document.getElementById('sigPreview').style.display = 'none';
+  document.getElementById('sigArea').classList.remove('has-image');
+  document.getElementById('sigRemoveBtn').style.display = 'none';
+  document.querySelector('.sig-upload-text').style.display = 'block';
+  document.querySelector('.sig-upload-icon').style.display = 'block';
+  document.getElementById('sigBtnGroup').style.display = 'flex';
+  document.getElementById('sigInputCamera').value = '';
+  document.getElementById('sigInputGaleria').value = '';
+}
+/* === / Assinatura === */
+
+async function enviarFormulario(e) {
+  e.preventDefault();
+  var btn = document.getElementById('btnSubmit');
+  var successMsg = document.getElementById('successMsg');
+  var errorMsg = document.getElementById('errorMsg');
+  btn.disabled = true; btn.textContent = 'Enviando...';
+  successMsg.style.display = 'none'; errorMsg.style.display = 'none';
+
+  var form = e.target;
+  var data = { timestamp: new Date().toLocaleString('pt-BR') };
+  // Campos na ordem do MAPA_CAMPOS.md (= colunas da planilha)
+  var campos = ['surname','christianNames','nomenName','nomenPlace','dob',
+    'address','city','state','postcode','country','homeTel','workTel','mobileTel','email',
+    'raisedLodge','lodgeNo','lodgeDate','lodgeConst',
+    'exaltedChapter','chapterNo','chapterDate','chapterConst',
+    'installedPreceptory','preceptoryNo','preceptoryDate','preceptoryConst','reason'];
+  campos.forEach(function(key) { var el = form.elements[key]; data[key] = el ? (el.value || '') : ''; });
+
+  if (sigBase64) {
+    data.signatureBase64   = sigBase64;   // o Apps Script salva no Drive e grava o link
+    data.signatureFileName = sigFileName;
+    data.signatureMimeType = sigMimeType;
+  }
+
+  if (!APPS_SCRIPT_URL) {
+    errorMsg.innerHTML = '<strong>Configuração pendente.</strong><br>Defina <code>APPS_SCRIPT_URL</code> no formulário antes de publicar.';
+    errorMsg.style.display = 'block'; btn.disabled = false; btn.textContent = 'Enviar Candidatura'; return;
+  }
+
+  try {
+    await fetch(APPS_SCRIPT_URL, {
+      method: 'POST', mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    successMsg.style.display = 'block';
+    btn.style.display = 'none';
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    var secs = 8, cd = document.getElementById('redirCount');
+    var timer = setInterval(function () { secs--; if (cd) cd.textContent = secs;
+      if (secs <= 0) { clearInterval(timer); window.location.href = 'painel.html'; } }, 1000);
+  } catch (err) {
+    errorMsg.style.d
