@@ -30,9 +30,11 @@
   .toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:26px 0 8px}
   .toolbar input,.toolbar select{font-family:inherit;font-size:.92rem;padding:9px 12px;border:1px solid var(--line);border-radius:6px;background:#fff}
   .toolbar input{flex:1;min-width:200px}
-  .chip{font-family:Arial,sans-serif;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;padding:3px 10px;border-radius:20px;color:#fff;white-space:nowrap}
-  .c-PENDENTE{background:#b08400}.c-OK{background:#2f7d32}.c-ENVIADO{background:#2b6ca3}.c-REVISAR{background:#a33b2b}
-  .stats{display:flex;gap:10px;flex-wrap:wrap;margin:6px 0 18px;font-family:Arial,sans-serif;font-size:.85rem;color:#6f665a}
+  .chip{font-family:Arial,sans-serif;font-size:.72rem;letter-spacing:.04em;padding:3px 10px;border-radius:20px;color:#fff;white-space:nowrap;display:inline-block}
+  .s-assin{background:#8a7f6a}.s-pag{background:#b08400}.s-loja{background:#2b6ca3}
+  .s-cap{background:#3f51b5}.s-prec{background:#2a8a86}.s-aprov{background:#7b3fa0}
+  .s-ar{background:#c4622d}.s-consag{background:#6b8e23}.s-ok{background:#2f7d32}.s-na{background:#9a9183}
+  .stats{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 18px;font-family:Arial,sans-serif;font-size:.85rem;color:#6f665a;align-items:center}
   .stats b{color:var(--crimson-d)}
   table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden}
   thead th{background:var(--crimson);color:#fff;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;padding:11px 12px;text-align:left;font-family:Arial,sans-serif}
@@ -41,6 +43,7 @@
   tbody tr:hover{background:#f3ece0}
   .nm{font-weight:bold;color:var(--crimson-d)}
   .muted{color:#8a8275;font-size:.84rem}
+  .lbl{color:#b3a98f;font-size:.7rem;text-transform:uppercase;letter-spacing:.04em}
   .empty{text-align:center;padding:60px 20px;color:#8a8275}
   .empty img{width:90px;opacity:.5;margin-bottom:14px}
   footer{background:var(--crimson-d);color:#e9ddd0;text-align:center;padding:24px;font-size:.82rem;margin-top:40px}
@@ -68,24 +71,29 @@
   </header>
   <div class="wrap">
     <div class="toolbar">
-      <input id="q" type="text" placeholder="Buscar por nome, cidade, loja…">
+      <input id="q" type="text" placeholder="Buscar por nome, cidade, loja, capítulo…">
       <select id="fStatus">
-        <option value="">Todos os status</option>
-        <option value="PENDENTE">Pendente</option>
-        <option value="OK">OK</option>
-        <option value="ENVIADO">Enviado</option>
-        <option value="REVISAR">Revisar</option>
+        <option value="">Todas as etapas</option>
+        <option value="Assinatura">✍️ Falta Assinatura</option>
+        <option value="Pagamento">💰 Falta Pagamento</option>
+        <option value="Loja">🏛️ Falta Clearance Loja</option>
+        <option value="Capítulo">🔯 Falta Clearance Capítulo</option>
+        <option value="Preceptório">⚔️ Falta Clearance Preceptório</option>
+        <option value="Aprovação">⚖️ Aguardando Aprovação</option>
+        <option value="Enviar AR">📤 Falta Enviar AR</option>
+        <option value="Consagração">🕯️ Aguardando Consagração</option>
+        <option value="Concluído">✅ Concluído</option>
       </select>
     </div>
     <div class="stats" id="stats"></div>
     <table>
-      <thead><tr><th>Candidato</th><th>Nomen</th><th>Cidade/UF</th><th>Loja / Capítulo</th><th>Status</th></tr></thead>
+      <thead><tr><th>Candidato</th><th>Nomen</th><th>Cidade/UF</th><th>Loja · Capítulo · Preceptório</th><th>Status</th></tr></thead>
       <tbody id="rows"><tr><td colspan="5" class="empty">Carregando…</td></tr></tbody>
     </table>
   </div>
   <footer>Chapel Master Felício de Paulo Nº 129 · Order of St Thomas of Acon · Province of South America</footer>
 <script>
-const CONFIG = { csvUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRy073iFvsL4UmQLcSuB7eXaWh8wbXkTQyUErns0yaQZb5h5lNweom6KGPwoqFj0twCopDt6Y8bUbxi/pub?gid=196028296&single=true&output=csv" };
+const CONFIG = { csvUrl: "https://docs.google.com/spreadsheets/d/1lT4eAz79o0F_j9sLvcUSk7TQ1CAJssBy3VmPa9NqurU/gviz/tq?tqx=out:csv&sheet=Painel" };
 let DATA = [];
 const $=s=>document.querySelector(s);
 function parseCSV(t){
@@ -98,17 +106,25 @@ function parseCSV(t){
   if(cur!==""||row.length){row.push(cur);rows.push(row);}
   return rows;
 }
-function idx(headers, ...keys){
-  const H=headers.map(h=>h.toLowerCase());
-  for(const k of keys){const i=H.findIndex(h=>h.includes(k));if(i>=0)return i;}
-  return -1;
+function chipClass(s){
+  s=(s||'').toLowerCase();
+  if(s.includes('conclu')) return 's-ok';
+  if(s.includes('consagra')) return 's-consag';
+  if(s.includes('enviar ar')) return 's-ar';
+  if(s.includes('aprova')) return 's-aprov';
+  if(s.includes('precept')) return 's-prec';
+  if(s.includes('capítulo')||s.includes('capitulo')) return 's-cap';
+  if(s.includes('loja')) return 's-loja';
+  if(s.includes('pagamento')) return 's-pag';
+  if(s.includes('assinatura')) return 's-assin';
+  return 's-na';
 }
 function render(){
   const term=$('#q').value.toLowerCase().trim();
-  const st=$('#fStatus').value;
+  const f=$('#fStatus').value;
   const list=DATA.filter(d=>{
-    if(st && d.status!==st) return false;
-    if(term && !(d.nome+d.nomen+d.cidade+d.loja+d.capitulo).toLowerCase().includes(term)) return false;
+    if(f && !(d.status||'').includes(f)) return false;
+    if(term && !((d.nome+d.nomen+d.cidade+d.loja+d.capitulo+d.preceptorio).toLowerCase().includes(term))) return false;
     return true;
   });
   const tb=$('#rows');
@@ -116,34 +132,25 @@ function render(){
   else tb.innerHTML=list.map(d=>`<tr>
     <td><span class="nm">${d.nome||'—'}</span><br><span class="muted">${d.email||''}</span></td>
     <td>${d.nomen||'—'}</td>
-    <td>${d.cidade||'—'}${d.uf?' / '+d.uf:''}</td>
-    <td>${d.loja||'—'}<br><span class="muted">${d.capitulo||''}</span></td>
-    <td><span class="chip c-${d.status||'PENDENTE'}">${d.status||'PENDENTE'}</span></td>
+    <td>${d.cidade||'—'}</td>
+    <td><span class="lbl">Loja</span> ${d.loja||'—'}<br>
+        <span class="lbl">Cap.</span> ${d.capitulo||'—'}<br>
+        <span class="lbl">Prec.</span> ${d.preceptorio||'—'}</td>
+    <td><span class="chip ${chipClass(d.status)}">${d.status||'—'}</span></td>
   </tr>`).join('');
-  const by=s=>DATA.filter(d=>d.status===s).length;
-  $('#stats').innerHTML=`<span>Total: <b>${DATA.length}</b></span>
-    <span class="chip c-PENDENTE">Pendente ${by('PENDENTE')}</span>
-    <span class="chip c-OK">OK ${by('OK')}</span>
-    <span class="chip c-ENVIADO">Enviado ${by('ENVIADO')}</span>
-    <span class="chip c-REVISAR">Revisar ${by('REVISAR')}</span>`;
+  const counts={};
+  DATA.forEach(d=>{ const s=d.status||'—'; counts[s]=(counts[s]||0)+1; });
+  let chips=`<span>Total: <b>${DATA.length}</b></span>`;
+  Object.keys(counts).sort().forEach(s=>{ chips+=`<span class="chip ${chipClass(s)}">${s} ${counts[s]}</span>`; });
+  $('#stats').innerHTML=chips;
 }
 async function load(){
   try{
     const r=await fetch(CONFIG.csvUrl); const rows=parseCSV(await r.text());
-    const H=rows[0];
-    const c={nome:idx(H,'christian','nome compl','sobrenome','surname'),
-      sobrenome:idx(H,'surname','sobrenome'),
-      nomenN:idx(H,'sir','nomen'), nomenL:idx(H,'of','local'),
-      cidade:idx(H,'city','cidade'), uf:idx(H,'county','state','estado'),
-      email:idx(H,'mail'), loja:idx(H,'raised','loja'), capitulo:idx(H,'exalted','capítulo','chapter'),
-      status:idx(H,'status')};
-    DATA=rows.slice(1).filter(r=>r.some(x=>x&&x.trim())).map(r=>{
-      const sob=c.sobrenome>=0?r[c.sobrenome]:''; const nm=c.nome>=0?r[c.nome]:'';
-      return { nome:[nm,sob].filter(Boolean).join(' '),
-        nomen:(c.nomenN>=0?r[c.nomenN]:'')+(c.nomenL>=0&&r[c.nomenL]?' of '+r[c.nomenL]:''),
-        cidade:c.cidade>=0?r[c.cidade]:'', uf:c.uf>=0?r[c.uf]:'', email:c.email>=0?r[c.email]:'',
-        loja:c.loja>=0?r[c.loja]:'', capitulo:c.capitulo>=0?r[c.capitulo]:'',
-        status:(c.status>=0?r[c.status]:'').toUpperCase()||'PENDENTE' }; });
+    DATA=rows.slice(1).filter(r=>r.some(x=>x&&x.trim())).map(r=>({
+      nome:r[0]||'', nomen:r[1]||'', cidade:r[2]||'', loja:r[3]||'',
+      capitulo:r[4]||'', preceptorio:r[5]||'', status:r[6]||'', email:r[7]||''
+    }));
     render();
   }catch(e){ $('#rows').innerHTML='<tr><td colspan="5" class="empty">Erro ao carregar a planilha.</td></tr>'; }
 }
