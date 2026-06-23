@@ -14,7 +14,7 @@
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:Georgia,'Times New Roman',serif;color:var(--ink);background:var(--stone);line-height:1.6}
   a{color:var(--crimson)}
-  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 24px}
   nav{position:sticky;top:0;z-index:20;background:var(--crimson-d);box-shadow:0 2px 6px rgba(0,0,0,.18)}
   nav .wrap{display:flex;align-items:center;justify-content:space-between;height:54px}
   nav .brand{color:#fff;font-size:.82rem;letter-spacing:.16em;text-transform:uppercase}
@@ -33,7 +33,7 @@
   .chip{font-family:Arial,sans-serif;font-size:.72rem;letter-spacing:.04em;padding:3px 10px;border-radius:20px;color:#fff;white-space:nowrap;display:inline-block}
   .s-assin{background:#8a7f6a}.s-pag{background:#b08400}.s-loja{background:#2b6ca3}
   .s-cap{background:#3f51b5}.s-prec{background:#2a8a86}.s-aprov{background:#7b3fa0}
-  .s-ar{background:#c4622d}.s-consag{background:#6b8e23}.s-ok{background:#2f7d32}.s-na{background:#9a9183}
+  .s-ar{background:#c4622d}.s-consag{background:#6b8e23}.s-ok{background:#2f7d32}.s-rec{background:#5b7a8c}.s-na{background:#9a9183}
   .stats{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 18px;font-family:Arial,sans-serif;font-size:.85rem;color:#6f665a;align-items:center}
   .stats b{color:var(--crimson-d)}
   table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden}
@@ -74,6 +74,7 @@
       <input id="q" type="text" placeholder="Buscar por nome, cidade, loja, capítulo…">
       <select id="fStatus">
         <option value="">Todas as etapas</option>
+        <option value="Recebida">📥 Recebida — aguardando análise</option>
         <option value="Assinatura">✍️ Falta Assinatura</option>
         <option value="Pagamento">💰 Falta Pagamento</option>
         <option value="Loja">🏛️ Falta Clearance Loja</option>
@@ -87,6 +88,7 @@
     </div>
     <div class="stats" id="stats"></div>
     <table>
+      <colgroup><col style="width:20%"><col style="width:14%"><col style="width:13%"><col style="width:35%"><col style="width:18%"></colgroup>
       <thead><tr><th>Candidato</th><th>Nomen</th><th>Cidade/UF</th><th>Loja · Capítulo · Preceptório</th><th>Status</th></tr></thead>
       <tbody id="rows"><tr><td colspan="5" class="empty">Carregando…</td></tr></tbody>
     </table>
@@ -116,6 +118,7 @@ function chipClass(s){
   if(s.includes('capítulo')||s.includes('capitulo')) return 's-cap';
   if(s.includes('loja')) return 's-loja';
   if(s.includes('pagamento')) return 's-pag';
+  if(s.includes('recebida')||s.includes('análise')||s.includes('analise')) return 's-rec';
   if(s.includes('assinatura')) return 's-assin';
   return 's-na';
 }
